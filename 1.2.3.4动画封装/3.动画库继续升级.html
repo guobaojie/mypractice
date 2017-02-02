@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    .box{
+        width:100px;
+        height: 100px;
+        background: #c03;
+        position:absolute;
+        left:0px;
+        top:0;
+    }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>
+<script>
+    var oBox = document.getElementsByClassName('box')[0];
+   
+    // target 目标动画可能是好几个动画效果的对象组合
+    animate(oBox,{'left':600})
+   
+    //封装升级版本的动画库(采用的是{属性：目标}对象传值的方法)
+    //原理：
+    //  用  （当前时间 / 总时间  * 总距离 =  当前距离）
+    function animate(ele,target,duration){
+
+        duration = duration || 2000;
+        var begin = {};
+        var change = {};
+        for(var key in target){
+            begin[key] = getCss(ele,key);
+            change[key] = target[key] - begin[key];
+        }
+        var time = 0;
+        var step = 10;
+        if(ele.timer){
+            clearInterval(ele.timer);
+        }
+        ele.timer = setInterval(function(){
+            time += step;
+            if(time >= duration ){
+                time = duration;
+                clearInterval(ele.timer);
+                setGroupCss(ele,target);
+                return;
+            }
+            for(var key in change){
+                if(change[key]){
+                    val = time / duration * change[key] + begin[key];
+                    setCss(ele,key,val);
+                }
+            }           
+        },10);
+    };
+
+
+   
+
+    //动态获取样式增强版
+    function getCss(ele,attr){
+        var val = null;
+        if(window.getComputedStyle){
+            val = window.getComputedStyle(ele)[attr];
+        }else{
+            if(attr == 'opacity'){
+                var reg = /alpha\(opacity=(\d+(\.\d+)?)\)/;
+                val = ele.currentStyle.filter;
+                val = reg.test(val)? reg.exec(val)[1]/100 : 1;
+            }else{
+                 val = ele.currentStyle[attr];
+            }
+           
+        }
+        var reg = /-?\d+(\.\d+)?(px|pt|em|rem|deg)?/;
+        if(reg.test(val)){
+            val = parseFloat(val);
+        }
+        return val;
+    }
+
+    //设置样式
+    function setCss(ele,attr,val){
+        if(attr == 'opacity'){
+            ele.style.opacity = val;
+            ele.style.filter = 'alpha(opacity='+val*100+')';
+            return;
+        }
+        if(attr == 'float'){
+            ele.style.cssFloat = val;
+            ele.style.styleFloat = val;
+            return;
+        }
+        var reg = /width|height|left|right|top|bottom(margin|padding)(Left|Right|Top|Bottom)?/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){
+                val += 'px';
+            }
+        }
+        ele.style[attr] = val;
+    }
+
+    //设置一堆样式
+    function setGroupCss(ele,target){
+        target = target || [];
+        if(target.toString() == '[Object Object]'){
+            for(var key in target){
+            setCss(ele,key,target[key]);
+            }
+        }
+    }
+</script>

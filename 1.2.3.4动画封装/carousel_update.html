@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .container{
+            width:600px;
+            height:400px;
+            margin:50px auto;
+            position:relative;
+            border:5px solid black;
+            overflow: hidden;
+        }
+        .box{
+            width:3200px;
+            height:100%;
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .box img{
+            width:600px;
+            height: 100%;
+            float:left;
+        }
+        .container a{
+            display: block;
+            width:50px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 40px;
+            font-weight: bolder;
+            background: #000;
+            color:#fff;
+            text-align: center;
+            position:absolute;
+            z-index: 1;
+            top:50%;
+            margin-top:-25px;
+            text-decoration: none;
+            border-radius:50%;
+            opacity:.5;
+        }
+        .container a:nth-of-type(1){
+            left: 10px;
+        }
+        .container a:nth-of-type(2){
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <div class="box">
+           <img src="img/20101211164505.jpg" alt="">
+           <img src="img/328127-105.jpg" alt="">
+           <img src="img/328173-105.jpg" alt="">
+           <img src="img/83690-105.jpg" alt="">
+       </div>
+       <a href="javascript:">&lt;</a>
+       <a href="javascript:">&gt;</a>
+   </div>
+</body>
+</html>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+    //jquery版本
+    //在末尾动态追加一张图片
+    var tmpImg = $('<img/>');
+    console.log( $('img:eq(1)').attr('src'))
+    tmpImg.attr('src',$('img:eq(0)').attr('src'));
+    tmpImg.appendTo ($('.box'));
+    //jquery 动画的封装
+  
+    var pos = 0; //初始位置
+    var num = 1; //计算图片
+    function move(){
+       var timer1 = setInterval(function(){
+           //每次向左移动10像素
+            pos -= 10;
+            $('.box').css('left',pos);
+            //获取一张图片的宽度
+            var tmpWd = parseInt($('img').css('width'));
+            if(pos == -tmpWd*num ){
+                num++;
+               
+                clearInterval(timer1);
+                var timer2 = setTimeout(move,1000);
+                if(num >= $('img').length){
+                //    clearTimeout(timer2);
+                   $('.box').css('left',0);
+                   num = 1;
+                   pos = 0;
+                }
+            } 
+        },30);
+    }
+
+
+    move();
+</script>
+    
+<script>
+
+
+    //获得元素当前的样式
+    function getStyle(obj,attr){
+        return window.getComputedStyle? window.getComputedStyle(obj)[attr] : obj.currentStyle[attr];
+    }
+
+    //通过class获取元素
+</script>

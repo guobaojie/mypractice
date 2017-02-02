@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    .box{
+        width:100px;
+        height: 100px;
+        background: #c03;
+        position:absolute;
+        left:0px;
+        top:0;
+    }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>
+<script>
+    var oBox = document.getElementsByClassName('box')[0];
+   
+    // move(oBox,'left',600,10);
+    //封装简单的动画库(用步进step和 间隔时间30 ，来控制循环动画)
+    function move(obj,attr,target,step){
+        clearInterval(obj.timer);
+        var pos = parseInt(getStyle(obj,attr));
+            step = pos<target? step : -step;
+        obj.timer = setInterval(function(){
+                pos += step;
+                obj.style.left = pos +'px';
+                if(pos >= target && step>0 || pos <= target && step<0){
+                    pos = target;
+                    clearInterval(obj.timer);
+                }
+        },30);
+    };
+
+
+    animate(oBox,'left',2000,600)
+    //封装升级版本的动画库
+    //原理：
+    //  用  （当前时间 / 总时间  * 总距离 =  当前距离）
+    function animate(ele,attr,duration,target){
+
+        duration = duration || 2000;
+        var begin = getCss(ele,attr);
+      
+        var change = target - begin;
+        var time = 0;
+        var step = 10;
+        if(ele.timer){
+            clearInterval(ele.timer);
+        }
+        ele.timer = setInterval(function(){
+            time += step;
+            if(time >= duration ){
+                time = duration;
+                clearInterval(ele.timer);
+                setCss(ele,attr,target);
+                return;
+            }
+            val = time / duration * change + begin;
+            setCss(ele,attr,val);
+        },10);
+    };
+
+
+    //动态获取盒子样式
+    function getStyle(obj,attr){
+        return getComputedStyle? getComputedStyle(obj,null)[attr] : obj.currentStyle[attr];
+    }
+
+    //动态获取样式增强版
+    function getCss(ele,attr){
+        var val = null;
+        if(getComputedStyle){
+            val = getComputedStyle(ele,null)[attr];
+        }else{
+            if(attr == 'opacity'){
+                var reg = /alpha\(opacity=(\d+(\.\d+)?)\)/;
+                val = ele.currentStyle.filter;
+                val = reg.test(val)? reg.exec(val)[1]/100 : 1;
+            }else{
+                 val = ele.currentStyle[attr];
+            }
+           
+        }
+        var reg = /-?\d+(\.\d+)?(px|pt|em|rem|deg)?/;
+        if(reg.test(val)){
+            val = parseFloat(val);
+        }
+        return val;
+    }
+
+    //设置样式
+    function setCss(ele,attr,val){
+        if(attr == 'opacity'){
+            ele.style.opacity = val;
+            ele.style.filter = 'alpha(opacity='+val*100+')';
+            return;
+        }
+        if(attr == 'float'){
+            ele.style.cssFloat = val;
+            ele.style.styleFloat = val;
+            return;
+        }
+        var reg = /width|height|left|right|top|bottom(margin|padding)(Left|Right|Top|Bottom)?/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){
+                val += 'px';
+            }
+        }
+        ele.style[attr] = val;
+    }
+</script>

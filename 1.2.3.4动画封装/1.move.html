@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    .box{
+        width:100px;
+        height: 100px;
+        background: #c03;
+        position:absolute;
+        left:600px;
+        top:0;
+    }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+</html>
+<script>
+    var oBox = document.getElementsByClassName('box')[0];
+   
+    move(oBox,'left',0,10);
+
+    function move(obj,attr,target,step){
+        clearInterval(obj.timer);
+        var pos = parseInt(getStyle(obj,attr));
+            step = pos<target? step : -step;
+        obj.timer = setInterval(function(){
+                pos += step;
+                obj.style.left = pos +'px';
+                if(pos >= target && step>0 || pos <= target && step<0){
+                    pos = target;
+                    clearInterval(obj.timer);
+                }
+        },30);
+    };
+        
+
+    //动态获取盒子样式
+    function getStyle(obj,attr){
+        return getComputedStyle? getComputedStyle(obj,null)[attr] : obj.currentStyle[attr];
+    }
+</script>

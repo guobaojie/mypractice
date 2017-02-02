@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul{ list-style: none; }
+        .container{
+            width:600px;
+            height:400px;
+            margin:50px auto;
+            position:relative;
+            border:5px solid black;
+            overflow: hidden;
+            text-align: center;
+        }
+        .box{
+            width:3200px;
+            height:100%;
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .box img{
+            width:600px;
+            height: 100%;
+            float:left;
+        }
+        .container a{
+            display: block;
+            width:50px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 40px;
+            font-weight: bolder;
+            background: #000;
+            color:#fff;
+            text-align: center;
+            position:absolute;
+            z-index: 1;
+            top:50%;
+            margin-top:-25px;
+            text-decoration: none;
+            border-radius:50%;
+            opacity:.5;
+        }
+        .container a:nth-of-type(1){
+            left: 10px;
+        }
+        .container a:nth-of-type(2){
+            right: 10px;
+        }
+
+        #indicator{
+            position:absolute;
+            z-index: 10;
+            position:absolute;
+            bottom:10px;
+            left:50%;
+        }
+        #indicator li{
+            float:left;
+            width:10px;
+            height: 10px;
+            border:1px solid black;
+            border-radius:50%;
+            background: #ffc;
+            margin:0 5px;
+            
+        }
+        #indicator li.active{
+            background:red;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <div class="box">
+           <img src="img/20101211164505.jpg" alt="">
+           <img src="img/328127-105.jpg" alt="">
+           <img src="img/328173-105.jpg" alt="">
+           <img src="img/83690-105.jpg" alt="">
+       </div>
+       <a href="javascript:">&lt;</a>
+       <a href="javascript:">&gt;</a>
+       <ul id="indicator"></ul>
+   </div>
+</body>
+</html>
+
+
+
+<script>
+    //获取所有的图片
+    var Imgs = document.getElementsByTagName('img');
+    var oBox = document.getElementsByClassName('box')[0];
+    console.log(Imgs[0].src);
+
+     //动态增加指示点指示器
+    var oUl = document.getElementById('indicator');
+    var aLis = oUl.getElementsByTagName('li');
+    var str = '';
+    for(var i=0; i<Imgs.length-1; i++){
+        if(i==0){
+            str += '<li class="active"></li>'
+        }
+        str += '<li></li>';  
+    }
+    oUl.innerHTML = str;
+
+
+    //在原有图片后边动态追加一张图片
+    var tmpImg = document.createElement('img');
+        tmpImg.setAttribute('src',Imgs[0].src);
+        oBox.appendChild(tmpImg);
+    //轮播
+    var num = 0; //设置开始的第一张图片
+    var timer = setInterval(move,2000);
+    function move(){
+        if(num >= Imgs.length-1){
+            setCss(oBox,'left',0);
+             num = 0;
+        }
+        num++;
+        animate(oBox,{'left':-600*num},500);
+        
+        // 如果到最后追加那张图。就直接让 指示点 回到第一个
+        var tmpNum = num;
+        if(num == Imgs.length-1){
+             tmpNum = 0;
+        }
+         for(var i=0; i<aLis.length; i++){
+            aLis[i].className = '';
+        }
+      
+         aLis[tmpNum].className = 'active';
+        
+        
+    };
+</script>
+
+
+
+<script>
+//设置 左右按钮
+  var container = document.getElementsByClassName('container')[0];
+  var prev = document.getElementsByTagName('a')[0];
+  var next = document.getElementsByTagName('a')[1];
+
+  prev.onclick = move;
+
+  next.onclick = function(){
+      if(num <= 0){
+          num = Imgs.length-1;
+          setCss(oBox,'left',num*-600);
+      }
+      num --;     
+      animate(oBox,{'left':num*-600},500);
+
+      for(var i=0; i<aLis.length; i++){
+        aLis[i].className = '';
+      }
+      
+     aLis[num].className = 'active';
+  }
+
+  //鼠标移动上去动画停止
+  container.onmouseover = function(){
+      clearInterval(timer);
+  }
+  container.onmouseout = function(){
+      timer = setInterval(move,2000);
+  }
+</script>
+
+
+
+<script>
+  //引入动画库
+     function animate(ele,target,duration,fn){
+         
+        duration = duration || 2000;
+        var begin = {};
+        var change = {};
+        for(var key in target){
+            begin[key] = getCss(ele,key);
+            change[key] = target[key] - begin[key];
+        }
+        var time = 0;
+        var step = 10;
+        if(ele.timer){
+            clearInterval(ele.timer);
+        }
+        ele.timer = setInterval(function(){
+            time += step;
+            if(time >= duration ){
+                // time = duration;
+                setGroupCss(ele,target);
+                
+                clearInterval(ele.timer);
+                fn&&fn();
+                return;
+            }
+            for(var key in change){
+                if(change[key]){
+                    val = time / duration * change[key] + begin[key];
+                    setCss(ele,key,val);
+                }
+            }           
+        },10);
+
+    };
+      //动态获取样式增强版
+    function getCss(ele,attr){
+        var val = null;
+        if(window.getComputedStyle){
+            val = window.getComputedStyle(ele)[attr];
+        }else{
+            if(attr == 'opacity'){
+                var reg = /alpha\(opacity=(\d+(\.\d+)?)\)/;
+                val = ele.currentStyle.filter;
+                val = reg.test(val)? reg.exec(val)[1]/100 : 1;
+            }else{
+                 val = ele.currentStyle[attr];
+            }
+           
+        }
+        var reg = /-?\d+(\.\d+)?(px|pt|em|rem|deg)?/;
+        if(reg.test(val)){
+            val = parseFloat(val);
+        }
+        return val;
+    }
+
+    //设置样式
+    function setCss(ele,attr,val){
+        if(attr == 'opacity'){
+            ele.style.opacity = val;
+            ele.style.filter = 'alpha(opacity='+val*100+')';
+            return;
+        }
+        if(attr == 'float'){
+            ele.style.cssFloat = val;
+            ele.style.styleFloat = val;
+            return;
+        }
+        var reg = /width|height|left|right|top|bottom(margin|padding)(Left|Right|Top|Bottom)?/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){
+                val += 'px';
+            }
+        }
+        ele.style[attr] = val;
+    }
+
+    //设置一堆样式
+    function setGroupCss(ele,target){
+        target = target || [];
+        if(target.toString() == '[object Object]'){
+            for(var key in target){
+            setCss(ele,key,target[key]);
+            }
+        }
+    }
+</script>

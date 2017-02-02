@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul{ list-style: none; }
+        .container{
+            width:600px;
+            height:400px;
+            margin:50px auto;
+            position:relative;
+            border:5px solid black;
+            overflow: hidden;
+            text-align: center;
+        }
+        .box{
+            width:3200px;
+            height:100%;
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .box img{
+            width:600px;
+            height: 100%;
+            float:left;
+            background:url("../img/ready.gif") no-repeat  center;
+        }
+        .container a{
+            display: block;
+            width:50px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 40px;
+            font-weight: bolder;
+            background: #000;
+            color:#fff;
+            text-align: center;
+            position:absolute;
+            z-index: 1;
+            top:50%;
+            margin-top:-25px;
+            text-decoration: none;
+            border-radius:50%;
+            opacity:.5;
+        }
+        .container a:nth-of-type(1){
+            left: 10px;
+        }
+        .container a:nth-of-type(2){
+            right: 10px;
+        }
+
+        #indicator{
+            position:absolute;
+            z-index: 10;
+            position:absolute;
+            bottom:10px;
+            left:50%;
+        }
+        #indicator li{
+            float:left;
+            width:10px;
+            height: 10px;
+            border:1px solid black;
+            border-radius:50%;
+            background: #ffc;
+            margin:0 5px;
+            
+        }
+        #indicator li.active{
+            background:red;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <div class="box">
+           <!--<img src="../img/20101211164505.jpg" alt="">
+           <img src="../img/328127-105.jpg" alt="">
+           <img src="../img/328173-105.jpg" alt="">
+           <img src="../img/83690-105.jpg" alt="">-->
+       </div>
+       <a href="javascript:">&lt;</a>
+       <a href="javascript:">&gt;</a>
+       <ul id="indicator"></ul>
+   </div>
+</body>
+</html>
+
+<!--引入动画库-->
+<script src="js/anmiation.js"></script>
+<script src="js/ajax.js"></script>
+<script>
+     /*
+    开始增加ajax 从json中获取数据，
+    并且增加数据延迟加载功能
+    建立 js 文件夹 
+    1.复习封装 ajax
+    2.复习图片延迟加载
+  */
+  
+</script>
+<script src="js/main.js"></script>
+
+
