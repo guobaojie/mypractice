@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul{ list-style: none; }
+        .container{
+            width:600px;
+            height:400px;
+            margin:50px auto;
+            position:relative;
+            border:5px solid black;
+            overflow: hidden;
+            text-align: center;
+        }
+        .box{
+            width:100%;
+            height:100%;
+            
+        }
+        .box div{
+            width:100%;
+            height:100%;
+            position: absolute;
+            z-index:0;
+            left:0;
+            top:0;
+            opacity: 0
+            
+        }
+        .box div img{
+            width:600px;
+            height: 100%;
+            border:none;
+            background:url("../img/ready.gif") no-repeat  center;
+        }
+        .container a{
+            display: block;
+            width:50px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 40px;
+            font-weight: bolder;
+            background: #000;
+            color:#fff;
+            text-align: center;
+            position:absolute;
+            z-index: 1;
+            top:50%;
+            margin-top:-25px;
+            text-decoration: none;
+            border-radius:50%;
+            opacity:.5;
+        }
+        .container a:nth-of-type(1){
+            left: 10px;
+        }
+        .container a:nth-of-type(2){
+            right: 10px;
+        }
+
+        #indicator{
+            position:absolute;
+            z-index: 10;
+            position:absolute;
+            bottom:10px;
+            left:50%;
+        }
+        #indicator li{
+            float:left;
+            width:10px;
+            height: 10px;
+            border:1px solid black;
+            border-radius:50%;
+            background: #ffc;
+            margin:0 5px;
+            
+        }
+        #indicator li.active{
+            background:red;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <div class="box">
+          <!--<div> <img src="../img/20101211164505.jpg" alt=""> </div>
+          <div> <img src="../img/328127-105.jpg" alt=""></div>-->
+       </div>
+       <a href="javascript:">&lt;</a>
+       <a href="javascript:">&gt;</a>
+       <ul id="indicator"></ul>
+   </div>
+</body>
+</html>
+
+<!--引入动画库-->
+<script src="js/animate.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/main.js"></script>
+
+
