@@ -99,35 +99,4 @@ Array.portotype.myMap = function(cb,content){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-function map(arr,fn){
-    var i,res = [],tmp;
-    if(arr instanceof Array || arr.length >=0){
-        for(var i=0; i<arr.length; i++){
-            tmp = fn(i,arr[i]);
-            if(tmp != null){
-                res.push(tmp);
-            }
-        }
-    }else{
-        for(i in arr){
-            tmp = fn(i,arr[i]);
-            if(tmp !=null){
-                res.push(tmp);
-            }
-        }
-    }
-    
-    return res;
-}
 </script>
