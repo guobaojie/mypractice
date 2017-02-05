@@ -161,10 +161,29 @@ Banner.prototype = {
         }
     },
     focusBindEvent:function(){
-
+        var  that = this;
+        for(var i=0; i<this.aLis.length; i++){
+            var curLi = this.lis[i];
+            curLi.index = i;
+            curLi.onclick = function(){
+                that.num = this.index;
+                that.setImg();
+            }
+        }
     },
     buttonBindEvent:function(){
-
+       var that = this;
+       this.right.onclick = function(){
+          that.num --;
+          if(that.num == -1){
+              that.num = that.res.length-1;
+          }
+          that.setImg()
+           
+       };
+       this.right.onclick = function(){
+           that.autoMove();
+       }
     },
     init:function(){
         var that = this;
