@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script src="js/jquery.js"></script>
+<script>
+/**
+ * 1.es5中提供了 forEach 的方法进行遍历 ，
+ *      其实是模仿了jquery中的each方法.
+ * 2.es5中还提供了map的方法，返回修改后的原数据
+ * 
+ * 
+ */
+
+    var arr = [11,22,33,44];
+
+//jquery的方式进行遍历------->>返回原数组
+    var res1 = $.each(arr, function(index,item){  //-----------> index -- 编号  item -- 每一项
+        console.log(index+','+item);
+        return true;
+    }); 
+    console.log(res1);//[11,22,33,44]
+
+
+//js forEach的方式 ------>> 没有返回值
+    var res2 = arr.forEach(function(item,index){
+        console.log(index+','+item);
+        return true;
+    });
+    console.log(res2); //undefined
+
+
+//js map的方法 ------- >> 返回修改后的数组
+    var res3 = arr.map(function(item,index){
+        console.log(index + ','+item);
+        return item*2;
+    })
+    console.log(res3); // [22,33,66,88]
+
+
+
+//===============================================
+//因为 ie 不支持 forEach 方法 --写一个兼容
+
+    Array.prototype.myForEach = function(cb, content){
+        //判断空数组
+        // if(this ===null){
+        //     throw new TypeError('this is null or not defined');
+        // }
+        // //判断回调格式
+        // if(typof cb !== 'function'){
+        //    throw new TypeError(cb + ' is not a function');;
+        // }
+        content = content || window;
+        
+        //判断 数组 或者 对象 格式 如何处理？
+       if(this instanceof Array || this.length >0){
+           for(var i=0; i<this.length; i++){
+               cb.call(param,this[i],i,this);
+           }
+       }else{
+           for(var key in this){
+                 cb.call(param,this[i],i,this);
+           }
+       }
+
+    }
+
+
+arr.forEach(function(item, index){
+    console.log(index+':'+item);
+})
+//=========================================
+Array.portotype.myMap = function(cb,content){
+    var tmpArr = [];
+    content = content||window;
+    if(this instanceof Array || this.length>0){
+        for(var i=0; i<this.length; i++){
+            if(tmpArr !== null){
+                tmpArr.push( cb.call(param,this[i],i,this));
+            }
+        }
+    }else{
+        for(var key in this){
+             if(tmpArr !== null){
+                tmpArr.push( cb.call(param,this[i],i,this));
+            }
+        }
+    }
+    return tmpArr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function map(arr,fn){
+    var i,res = [],tmp;
+    if(arr instanceof Array || arr.length >=0){
+        for(var i=0; i<arr.length; i++){
+            tmp = fn(i,arr[i]);
+            if(tmp != null){
+                res.push(tmp);
+            }
+        }
+    }else{
+        for(i in arr){
+            tmp = fn(i,arr[i]);
+            if(tmp !=null){
+                res.push(tmp);
+            }
+        }
+    }
+    
+    return res;
+}
+</script>

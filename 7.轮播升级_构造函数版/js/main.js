@@ -66,4 +66,15 @@
 // };
 
 
-//构造函数版--更新中
+//构造函数版
+function Banner(){
+
+};
+
+Banner.prototype = {
+    //
+    constructor:Banner,
+    getData: funciton(){
+        
+    }
+}
