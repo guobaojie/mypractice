@@ -67,14 +67,116 @@
 
 
 //构造函数版
-function Banner(){
+function Banner(container,dataUrl,interval){
+    this.interval = interval||2000;
+    this.container = container;
+    this.dataUrl = dataUrl;
+    this.res = null;
+    this.oBox = this.container.getElementsByClassName('.box')[0];
+    this.Ul = this.container.getElementsByClassName('.indicator')[0];
+    this.left = this.container.getElementsByTagName('a')[0];
+    this.left = this.container.getElementsByTagName('a')[1];
+    this.aImgs = this.oBox.getElementsByTagName('img');
+    this.aLis = this.Ul.getElementsByTagName('li');
+    this.timer = null;
+    this.num = 0;
 
+    //执行所有方法
+    this.init();
 };
 
-Banner.prototype = {
-    //
+Banner.prototype = { 
     constructor:Banner,
-    getData: funciton(){
-        
+    getData:function(){
+        var that = this;
+        ajax({
+            method:'GET',
+            url:dataUrl,
+            async:false,
+            cache:false,
+            dataType:'json',
+            success:function(res){
+                that.res = res;
+            }
+        })
+    },
+    bindData:function(){
+        if(this.res){
+            var strDivs = '';
+            var strLis = '';
+            for(var i=0; i<this.res.length; i++){
+                strDivs = '<div><img src="" realSrc="'+'"/></div>';
+                strLis += i === 0? '<li class="active"></li>':'<li></li>'
+            }
+            this.oBox.innerHTML = strDivs;
+            this.Ul.innerHTML = strLis
+        }
+    },
+    imgload:function(){
+        var that = this;
+        for(var i=0; i<this.aImgs.length; i++){
+            ;(function(i){
+                    var curImg = that.aImgs[i];
+                    var tmpImg = new Image;
+                    tmpImg.src = curImg.getAttribute('realSrc');
+                    tmpImg.onload = function(){
+                        curImg.src = this.src;
+                        i==0? setGroupCss(curImg.parentNode,{'opacity':1, 'zIndex':1}) : null;
+                    }
+            })(i);
+        }
+    },
+    autoMove:function(){
+        this.num ++;
+        if(this.num == this.res.length){
+            this.num =0;
+        }
+        this.setImg();
+    },
+    setImg:function(){
+        for(var i=0; i<this.aImgs.length; i++){
+            var curImg = this.aImgs[i];
+            if(i === this.num){
+                animate(curImg.parentNode,{'opactiy':1},300);
+                this.aLis[this.num].className = 'active';
+            }else{
+                 animate(curImg.parentNode[i],{ 'opacity':0, },200,function(){
+                    setCss(this,'zIndex',0);
+                });
+                this.aLis[i].className = '';
+            }
+        }
+    },
+    mouseEvent:function(){
+        var that = this;
+        this.container.onmouseover = function(){
+            window.clearInterval(that.timer);
+            that.left.style.display = that.right.style.display = 'block';
+        }
+        this.container.onmouseout = function(){
+            that.timer = window.setInterval(function(){
+                that.autoMove();
+            },that.interval);
+            that.left.style.display = that.right.style.display = 'none';
+        }
+    },
+    focusBindEvent:function(){
+
+    },
+    buttonBindEvent:function(){
+
+    },
+    init:function(){
+        var that = this;
+        this.getData();
+        this.bindData();
+        this.imgload();
+        this.timer = setInterval(function(){
+            that.autoMove();
+        },this.interval);
+        this.mouseEvent();
+        this.focusBindEvent();
+        this.buttonBindEvent();
     }
+
 }
