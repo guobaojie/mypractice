@@ -3,8 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>表格排序</title>
+<style>
+*{margin: 0; padding:0}
+table{
+    width:400px;
+    height: auto;
+    margin:50px auto;
+    border-collapse:collapse;
+    border:none;
+}
+thead th{
+    cursor:pointer;
+}
+thead th, tbody td{
+    width:100px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border:solid #000 1px;
+}
+
+</style>
 </head>
 <body>
-    
+    <table border="0" cellspacing="1">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>英语</th>
+                <th>数学</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--<tr>
+                <td>tom </td>
+                <td>6</td>
+                <td>45</td>
+                <td>33</td>
+            </tr>-->
+        </tbody>
+    </table>
 </body>
 </html>
+<script src="js/main.js"></script>
