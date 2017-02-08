@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="text" id="input" value="" placeholder="请输入">
+</body>
+</html>
+<script>
+    var input = document.getElementById('input');
+    input.onkeyup = function(e){
+        e = e|| window.event;
+        console.log(e.keyCode);
+
+        if(e.keyCode == 13){
+            window.location.reload();
+            window.location.href = 'http://www.baidu.com';
+        }
+    }
+</script>

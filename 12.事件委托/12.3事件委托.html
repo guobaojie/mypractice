@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托</title>
+</head>
+<body>
+    <p style="width: 300px; height: 100px; background: pink;"></p>
+    <div class="green" style="width: 200px; height: 80px; background: green;"></div>
+    <div style="width: 200px; height: 80px; background: yellow;"></div>
+</body>
+</html>
+<script>
+    var body = document.body;
+    body.onclick = function(e){
+        e = e|| window.event;
+        e.target = e.target || e.srcElement;
+        console.log(e.target);
+        if(e.target.nodeName.toLowerCase() == 'div' &&　e.target.className == 'green'){
+            alert('green');
+        }else if(e.targe.nodeName == 'P'){
+            alert('p');
+        }
+    }
+</script>

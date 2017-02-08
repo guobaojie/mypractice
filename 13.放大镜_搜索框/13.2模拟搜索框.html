@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟搜索框</title>
+    <style>
+        html,body,div,input,ul,li,a{
+            margin: 0;
+            padding: 0;
+        }
+        #wrap{
+            width: 500px;
+            margin: 30px auto;
+            font-family: "Microsoft YaHei UI";
+            font-size: 20px;
+        }
+        #wrap input{
+            width: 478px;
+            height: 30px;
+            line-height: 30px;
+            outline: none;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+        #wrap ul{
+            display: none;
+            position: relative;
+            top : -1px;
+            width: 100%;
+            list-style: none;
+            border: 1px solid #ccc;
+        }
+        #wrap ul li{
+            height: 30px;
+            line-height: 30px;
+        }
+        #wrap ul li a{
+            padding: 0 10px;
+            box-sizing: border-box;
+            display: block;
+            text-decoration: none;
+            color: #000;
+        }
+        #wrap ul li a:hover{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <input type="text" name="" value="" id="input" autofocus="autofocus">
+        <ul>
+            <li><a href="javascript:void 0 ">哈哈</a></li>
+            <li><a href="javascript:void 0 ">哈哈哈</a></li>
+            <li><a href="javascript:void 0 ">哈哈哈哈</a></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    var oBox = document.getElementById('wrap');
+    var input = oBox.getElementsByTagName('input')[0];
+    var oUl = oBox.getElementsByTagName('ul')[0];
+    var aLis = oUl.getElementsByTagName('li');
+
+    input.onfocus = fn;
+    input.onkeyup = fn;
+    function fn(){
+        var reg =/^\s*$/;
+        if(reg.test(this.value)){
+            oUl.style.display = 'none';
+            return;
+        }
+        oUl.style.display = 'block';
+    };
+
+    oUl.onclick = function(e){
+        e = e||window.event;
+        e.target = e.target || e.srcElement;
+        if(e.target.nodeName == 'A'){
+            input.value = e.target.innerHTML;
+            this.style.display = 'none';
+        }
+    }
+    
+</script>

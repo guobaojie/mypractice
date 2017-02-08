@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        html,body,div,img{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            margin: 20px;
+            width: 350px;
+            height: 350px;
+            position: relative;
+            background: url("images/iphone.jpg") no-repeat;
+            box-shadow: 3px 3px 10px #000;
+        }
+        .box .innerBox{
+            display: none;
+            width: 175px;
+            height: 175px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            background: #FEDE4F;
+            cursor: move;
+        }
+        .bigImgBox{
+            display: none;
+            width: 350px;
+            height: 350px;
+            position: absolute;
+            left: 400px;
+            top : 20px;
+            box-shadow: 3px 3px 10px #000;
+            overflow: hidden;
+        }
+        .bigImgBox img{
+            position: absolute;
+            left: 0;
+            top : 0;
+            width: 200%;
+            height: 200%;
+            border: none;
+            vertical-align: top;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+       <div class="innerBox"></div>
+    </div>
+    <div class="bigImgBox">
+        <img src="images/iphone_big.jpg" >
+    </div>
+</body>
+</html>
+
+<script>
+    var box = document.getElementsByClassName('box')[0];
+    var innerBox = box.getElementsByClassName('innerBox')[0];
+    var bigImgBox = document.getElementsByClassName('bigImgBox')[0];
+    var bigImg = bigImgBox.getElementsByTagName('img')[0];
+
+    box.onmouseover = function(){
+        innerBox.style.display = 'block';
+        bigImgBox.style.display = 'block';
+    }
+
+    box.onmousemove = function(e){
+        e = e||window.event;
+
+        //  页面的位置
+        e.pageX = e.pageX || e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+        e.pageY = e.pageY || e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+        //  透明图片位置 = 页面位置 - 盒子做偏移 -  透明图片一般距离
+        var l = e.pageX - box.offsetLeft - innerBox.offsetWidth/2;
+        var t = e.pageY - box.offsetTop - innerBox.offsetHeight/2;
+
+        // 最大位置 = 盒子的宽度 减去 透明图片的宽度的
+        var maxLeft = box.offsetWidth - innerBox.offsetWidth; 
+        var maxTop = box.offsetHeight - innerBox.offsetHeight;
+
+        l = l<0? 0 : l>maxLeft? maxLeft:l;
+        t = t<0? 0 : t>maxTop? maxTop:t;
+        
+        
+        innerBox.style.left = l +'px';
+        innerBox.style.top = t + 'px';
+
+        bigImg.style.left = -2 *l + 'px';
+        bigImg.style.top = -2 *t +'px';
+    }
+
+    box.onmoueout = function(e){
+        innerBox.style.display = 'none';
+        innerBox.style.display = 'none';
+    }
+</script>

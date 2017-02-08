@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>删除元素</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        ul{ list-style: none; }
+        ul li{
+            width: 100px;
+            height: 100px;
+            background: -webkit-linear-gradient(left, yellow,blue,green);
+            float: left;
+            border-radius: 50%;
+            line-height: 100px;
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <li><a href="javascript: void 0">delete</a></li>
+        <div><a href="javascript: void 0">haha</a></div>
+
+    </ul>
+</body>
+</html>
+<script>
+    var oUl = document.getElementsByTagName('ul')[0];
+    oUl.onclick = function(e){
+        e = e||window.event;
+        e.target = e.target || e.srcElement;
+        if(target.nodeName == 'A' && target.parentNode.nodeName.toLowerCase() == 'li'){
+            var parentNode = e.target.parentNode;
+            parentNode.parentNode.removeChild(parentNode);
+        }
+    }
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标跟随</title>
+        <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            position: relative;
+            _font-size: 0;
+            width: 500px;
+            margin: 30px auto;
+        }
+        .wrap div{
+            width: 100px;
+            height: 75px;
+            display: inline-block;
+        }
+        .wrap .bigImgBox{
+            display: none;
+            width: 0px; /*从0运动到400*/
+            height: 0px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .wrap img{
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+            border: none;
+        }
+
+    </style>
+</head>
+    <div class="wrap">
+        <div><img src="images/apple_1.jpg" bigImg="images/apple_1_bigger.jpg"></div>
+        <div><img src="images/apple_2.jpg"  bigImg="images/apple_2_bigger.jpg"></div>
+        <div><img src="images/apple_3.jpg"  bigImg="images/apple_3_bigger.jpg"></div>
+        <div><img src="images/apple_4.jpg"  bigImg="images/apple_4_bigger.jpg"></div>
+        <div class="bigImgBox"><img src=""></div>
+    </div>
+</html>
+<script src="jquery-1.11.3.min.js"></script>
+<script>
+    var $wrap = $('.wrap');
+    var $bigImgbox = $('.bigImgBox');
+    $wrap.find('div:not(.bigImgBox) img').on('mouseover',function(e){
+        e = e||window.event;
+        var l = e.pageX - $wrap.offset().left + 10;
+        var t = e.pageY - $wrap.offset().top +10;
+        $bigImgbox.css({left:l, top:t});
+    }).on('mouseout',function(){
+        $bigImgbox.css({display:'none', width:0, height:0});
+    }).on('mouseover',function(){
+       $bigImgbox.css('display','block').find('img').prop('src',$(this).attr('bigImg')).parent().animate({ width: 400,height:300},200);
+    })
+</script>

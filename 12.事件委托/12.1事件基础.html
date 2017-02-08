@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件基础</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        #div1{
+            _margin: 1000px 0;
+            width: 100px;
+            height: 100px;
+            background: red;
+
+        }
+        #link{
+            width: 100px;
+            height: 40px;
+            display: block;
+            background: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <a id="link" class="link" href="http://www.baidu.com">链接</a>
+</body>
+</html>
+<script>
+
+
+    var div1 = document.getElementById('div1');
+    div1.onclick = function(e){
+        //1.兼容问题 e 和 event
+        //ie中是 window.event;
+        e = e || event; 
+        console.log(e.clientX);
+
+
+        //2.兼容问题  ie中不存在e.pagex 属性
+        //FF、Opera和IE浏览器认为在客户端浏览器展示的页面的内容对应于整个HTML，所以使用document.documentElement来代表
+        //Safari和Chrome浏览器则认为页面开始于body部分，从而相应的滚动距离用document.body.scrollLeft 和 document.body.scrollTop来获取
+        e.pageX = e.pageX || (document.documentElement.scrollLeft || document.body.v) + e.clientX;
+        e.pageY = e.pageY || (document.documentElement.scrollTop || document.body.scrollTop) + e.clientY;
+
+        console.log(e.pageX);
+        console.log(e.pageY);
+        
+        console.log(e.type); //事件类型
+    }
+
+   var link = document.getElementById('link');
+   link.onclick = function(e){
+       e = e || event;
+       console.log(e);
+       //3.阻止默认事件
+       //e.returnValue = false; //在 ie6-8 这是给属性赋值
+       e.preventDefault = e.preventDefault || function (){e.returnValue = false;}
+       e.preventDefault();
+
+       //4.阻止事件传播
+       // ie中使用的是 e.cancelBubble = true;
+       e.stopPropagation = e.stopPropagation || function(){e.cancelBubble = true};
+       e.stopPropagation();
+    }
+
+    document.body.onclick = function(){
+        e = e||window.event;
+        //5. 打印事件源
+        //ie中是 e.srcElement;
+        e.target = e.target || e.srcElement;
+        console.log(e.target);
+    }
+</script>
+
