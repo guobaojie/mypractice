@@ -62,11 +62,11 @@
         //判断 数组 或者 对象 格式 如何处理？
        if(this instanceof Array || this.length >0){
            for(var i=0; i<this.length; i++){
-               cb.call(param,this[i],i,this);
+               cb.call(content,this[i],i,this);
            }
        }else{
            for(var key in this){
-                 cb.call(param,this[i],i,this);
+                 cb.call(content,this[i],i,this);
            }
        }
 
@@ -83,13 +83,13 @@ Array.portotype.myMap = function(cb,content){
     if(this instanceof Array || this.length>0){
         for(var i=0; i<this.length; i++){
             if(tmpArr !== null){
-                tmpArr.push( cb.call(param,this[i],i,this));
+                tmpArr.push( cb.call(content,this[i],i,this));
             }
         }
     }else{
         for(var key in this){
              if(tmpArr !== null){
-                tmpArr.push( cb.call(param,this[i],i,this));
+                tmpArr.push( cb.call(content,this[i],i,this));
             }
         }
     }
