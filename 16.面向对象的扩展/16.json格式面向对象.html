@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    var obj = {a:12, b:5, c:function(){alert(this.a)}};
+    obj.c();
+
+    //缺点不能复用
+     var p1 = {
+         name:'tom',
+         sex:'男',
+         showName:function(){
+             alert('my name is'+this.name);
+         },
+         showSex:function(){
+             alert('my sex is'+this.sex);
+         }
+     }
+
+     //以上的写法就是 json 格式的面向对象
+
+
+     //命名空间
+    var obj = {};
+    obj.common = {
+        getByClass:function(){},
+        myAddEvent:function(){};
+    }
+
+    obj.fx= {
+        startMove:function(){},
+        drag:function(){};
+    }
+
+    //把同一类别的方法包在一起就是命名空间
+</script>
