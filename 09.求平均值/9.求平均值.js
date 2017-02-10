@@ -11,6 +11,6 @@ function average(){
     //去掉一个最大值，去掉一个最小值
     arr.shift();
     arr.pop();
-    return eval(arr.join('+'))arr.length; 
+    return eval(arr.join('+'))/arr.length; 
 }
 
