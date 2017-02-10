@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+<style>
+    *{
+        padding:0;
+        margin: 0;
+    }
+    #box{
+        width:300px;
+        height: auto;
+        position:relative;
+        margin: 50px auto;
+    }
+    #box ul li{
+        list-style: none;
+        float:left;
+        margin-right:10px;
+        width:50px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 25px;
+        color:brown;
+        border:1px solid brown;
+        cursor: pointer;
+    }
+    #box div{
+        position:absolute;
+        width:300px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 50px;
+        font-weight: bolder;
+        text-align: center;
+        border:1px solid brown;
+        top:30px;
+        display: none;
+    }
+    #box .active{
+        background: yellow;
+    }
+</style>
+</head>
+<body>
+    <div id="box">
+        <ul>
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <div>一</div>
+        <div>二</div>
+        <div>三</div>
+    </div>
+</body>
+</html>
+
+<script>
+    function Tab(id){
+        var oBox = document.getElementById(id);
+        this.aBtns = oBox.getElementsByTagName('li');
+        this.aDivs = oBox.getElementsByTagName('div');
+        var _this = this;
+
+       this.aDivs[0].style.display = 'block';
+        for(var i=0; i<this.aBtns.length; i++){
+            this.aBtns[i].index = i;
+            this.aBtns[i].onclick = function(){
+                _this.change(this.index)
+                //唯一需要注意的是： 调用change 时改变成 实例的 this
+            }
+        }
+    }
+
+    Tab.prototype.change = function(index){
+        for(var i=0; i<this.aBtns.length; i++){
+            this.aBtns[i].className = '';
+            this.aDivs[i].style.display = 'none';
+        }
+        this.aDivs[index].style.display = 'block';
+        this.aBtns[index].className = 'active';
+    }
+
+    new Tab('box');
+</script>
