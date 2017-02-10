@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+<script>
+
+    ;(function boiling(){ 
+        window.setTimeout(function (){
+            console.log('水开了'); 
+            run(person,'boiling');
+        },3000)
+    })();
+
+    function noodles(){ console.log('泡面');}
+    function tea(){console.log('泡茶');}
+    function foot(){console.log('洗脚');}
+    function swimming(){console.log('游泳');}
+
+    var person = {};
+    on(person,'boiling',noodles); // 水开了之后我要泡面
+    on(person,'boiling',tea); //
+    on(person,'boiling',foot);
+    on(person,'boiling',swimming);
+    on(person,'boiling',function (){ console.log('haha'); });
+
+    function on(ele, type, fn){
+        if(!ele[type]){
+            ele[type] = [];
+        }
+        a = ele[type];
+        for(var i=0; i<a.length; i++){
+            if(a[i] === fn){
+                return;
+            }
+        }
+        a.push(fn);
+    }
+
+    function run(ele,type){
+        var a = ele[type];
+        if(a){
+            for(var i=0; i<a.length; i++){
+                if(typeof a[i] === 'function'){
+                    a[i].call(ele);
+                }else{
+                    a.splice(i,1);
+                    i--;
+                }
+            }
+        }
+    }
+
+    function off(ele, type, fn){
+        var a = ele[type];
+        if(a){
+            for(var i=0; i<a.length; i++){
+                if(a[i]== fn){
+                    a[i] = null;
+                    break;
+                }
+            }
+        }
+    }
+    
+</script>
