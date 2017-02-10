@@ -59,3 +59,14 @@
        $bigImgbox.css('display','block').find('img').prop('src',$(this).attr('bigImg')).parent().animate({ width: 400,height:300},200);
     })
 </script>
+
+<script> 
+ //jquery1.6中新加了一个方法prop()，一直没用过它，官方解释只有一句话:获取在匹配的元素集中的第一个元素的属性值。
+ //以前我们使用attr获取checked属性时返回"checked"和"",  !!现在使用prop方法获取属性则统一返回true和false。
+
+ //什么时候使用attr()，什么时候使用prop()？
+//1.添加属性名称该属性就会生效应该使用prop();  例如：async  autofocus checked selected readOnly location
+//2.是有true,false两个属性使用prop();
+//3.其他则使用attr();
+
+</script>
