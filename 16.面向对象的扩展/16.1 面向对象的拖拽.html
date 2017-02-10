@@ -20,8 +20,9 @@ function Drag(id){
     this.disY = 0;
     this.oDiv = document.getElementById(id);
     var _this = this;
-    this.oDiv.onmousedown = function(e){
+    this.oDiv.onmousedown = function(e){ //在firfox中一定要记得传e,不然会有bug
         _this.down(e);
+        return false; // ff中一定要return false 否则也会有bug
     }
 };
 
@@ -48,7 +49,8 @@ Drag.prototype.move = function(e){
 }
 
 Drag.prototype.up = function(e){
-    document.onmousemove = document.onmouseup = null;
+    document.onmousemove = null;
+    document.onmouseup = null;
 }
 
 
