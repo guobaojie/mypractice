@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹性动画</title>
+<style>
+html,body,div{
+    margin:0;
+    padding:0;
+}
+#box{
+    width:100px;
+    height:100px;
+    background: red;
+    position:absolute;
+    left:30px;
+    top:50px;
+    border-radius:50%;
+}
+</style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+</html>
+<script src="event.js"></script>
+<script>
+    /**
+        这个动画用到on off run 动画的封装
+    */
+
+    var oBox = document.getElementById('box');
+    on(oBox, 'mousedown', down);
+
+    function down(e){
+
+        
+        e = e ||window.event;
+       this.l = e.clientX - this.offsetLeft;
+       this.t = e.clientY - this.offsetTop;
+
+       
+       var _this = this;
+       this.MOVE = function(e){
+           move.call(_this,e);
+       }
+       this.UP = function(e){
+           up.call(_this,e);
+       }
+
+       on(document, 'mousemove', this.MOVE);
+       on(document, 'mouseup', this.UP);
+    }
+
+
+    function move(e){
+        e = e || event;
+        var l = e.clientX - this.l;
+        var t = e.clientY - this.t ;
+        var maxL = (document.documentElement.clientWidth||document.body.clientWidth) - this.offsetWidth;
+        var maxT = (document.documentElement.clientHeight||document.body.clientHeight) - this.offsetHeight;
+        l = l<0? 0 : (l>maxL? maxL : l);
+        t = t<0? 0 : (t>maxT? maxT : t);
+        this.style.left = l + 'px';
+        this.style.top = t + 'px';
+         
+    }
+
+
+
+    function up(e){
+        off(document,'mousemove', this.MOVE);
+        off(document,'mouseup',this.UP);
+        drop.call(this);
+        // drop 思路
+        /**
+         *  定时器： 1.每间隔10毫秒 增加 一点步长step (如果没有部长) 
+         *          2.只要没有到达 最大位置 maxTop  ---> 就不断增加
+         *          3.到达最大位置。就 让步长变成负值
+         *          4. 到达最小位置时候
+         *          
+         */
+    }
+
+
+    function drop(){
+        var _this = this;
+        
+        setInterval(function(){
+           
+            var changeTop = _this.offsetTop + _this.step;
+
+            
+            var maxTop = (document.documentElement.clientHeight || document.body.clientHeight) - _this.offsetHeight;
+
+           
+
+        },10);
+    }
+
+</script>
