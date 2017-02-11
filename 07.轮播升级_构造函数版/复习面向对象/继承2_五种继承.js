@@ -54,5 +54,5 @@ function extend2(Child, Parent){
     for(var key in p){
         c[key] = p[key];
     }
-    cuber = p;
+    c.uber = p;
 };
