@@ -12,8 +12,12 @@
 
 
 <script>
-
-
+/**
+ * 1.拖拽的时候，如果有文字被选中，会产生问题
+ *      原因： 当鼠标按下的时候，如果页面中有文字被选中，
+ *              那么会触发浏览器的默认的拖拽文字效果（记住这是默认行为）
+ *      解决方案： 阻止默认行为  在ie下
+ */
 function Drag(id){
     
     this.disX = 0;
@@ -29,28 +33,35 @@ function Drag(id){
 Drag.prototype.down = function(e){
     var _this = this;
     e = e||window.event;
-    this.disX = e.pageX - this.oDiv.offsetLeft;
-    this.disY = e.pageY = this.oDiv.offsetTop;
+    this.disX = e.clientX - this.oDiv.offsetLeft;  //这里不用 e.pageX/Y 是因为 ie6-8中不支持。当然可以手动来处理此兼容
+    this.disY = e.clientY - this.oDiv.offsetTop;
     document.onmousemove = function(e){
         _this.move(e);
     } 
     document.onmouseup = function(e){
         _this.up(e);
     } 
+    if(this.oDiv.SetCapture){
+        this.oDiv.setCapture();
+    }
 }
 
 Drag.prototype.move = function(e){
     e = e|| window.event;
-    var l = e.pageX - this.disX;
-    var t = e.pageY - this.disY;
+    var l = e.clientX - this.disX;
+    var t = e.clientY - this.disY;
     this.oDiv.style.left = l +'px';
     this.oDiv.style.top = t + 'px';
+    e.preventDefault = e.preventDefault || function(){ returnValue = false; } //处理兼容
     e.preventDefault();
 }
 
 Drag.prototype.up = function(e){
     document.onmousemove = null;
     document.onmouseup = null;
+     if(this.oDiv.releaseCapture){
+        this.oDiv.releaseCapture();
+     }
 }
 
 
