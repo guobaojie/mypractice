@@ -15,8 +15,12 @@
 /**
  * 1.拖拽的时候，如果有文字被选中，会产生问题
  *      原因： 当鼠标按下的时候，如果页面中有文字被选中，
- *              那么会触发浏览器的默认的拖拽文字效果（记住这是默认行为）
- *      解决方案： 阻止默认行为  在ie下
+ *              那么会触发浏览器的默认的拖拽文字效果（这是默认行为）
+ *              拖拽图片也默认会被拖动
+ * 
+ *      解决方案：标准下：阻止默认行为  (return false)；
+ *               在（非标准）ie下：设置全局捕获
+ *              图片也是一样的处理方式
  */
 function Drag(id){
     
@@ -26,7 +30,7 @@ function Drag(id){
     var _this = this;
     this.oDiv.onmousedown = function(e){ //在firfox中一定要记得传e,不然会有bug
         _this.down(e);
-        return false; // ff中一定要return false 否则也会有bug
+        return false; // 阻止默认行文
     }
 };
 
@@ -41,7 +45,7 @@ Drag.prototype.down = function(e){
     document.onmouseup = function(e){
         _this.up(e);
     } 
-    if(this.oDiv.SetCapture){
+    if(this.oDiv.SetCapture){  // 设置全局捕获
         this.oDiv.setCapture();
     }
 }
@@ -52,14 +56,14 @@ Drag.prototype.move = function(e){
     var t = e.clientY - this.disY;
     this.oDiv.style.left = l +'px';
     this.oDiv.style.top = t + 'px';
-    e.preventDefault = e.preventDefault || function(){ returnValue = false; } //处理兼容
-    e.preventDefault();
+    // e.preventDefault = e.preventDefault || function(){ returnValue = false; } //处理兼容
+    // e.preventDefault(); //return false 已经处理好这些了
 }
 
 Drag.prototype.up = function(e){
     document.onmousemove = null;
     document.onmouseup = null;
-     if(this.oDiv.releaseCapture){
+     if(this.oDiv.releaseCapture){ //释放全局捕获
         this.oDiv.releaseCapture();
      }
 }
