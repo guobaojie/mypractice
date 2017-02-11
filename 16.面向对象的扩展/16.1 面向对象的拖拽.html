@@ -39,15 +39,16 @@ Drag.prototype.down = function(e){
     e = e||window.event;
     this.disX = e.clientX - this.oDiv.offsetLeft;  //这里不用 e.pageX/Y 是因为 ie6-8中不支持。当然可以手动来处理此兼容
     this.disY = e.clientY - this.oDiv.offsetTop;
+    if(this.oDiv.SetCapture){  // 设置全局捕获
+        this.oDiv.setCapture();
+    }
     document.onmousemove = function(e){
         _this.move(e);
     } 
     document.onmouseup = function(e){
         _this.up(e);
     } 
-    if(this.oDiv.SetCapture){  // 设置全局捕获
-        this.oDiv.setCapture();
-    }
+    
 }
 
 Drag.prototype.move = function(e){
