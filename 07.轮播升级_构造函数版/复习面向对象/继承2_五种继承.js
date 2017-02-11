@@ -20,7 +20,7 @@ console.log(cat1.species);  // 物种
 
 //继承 2.catGod 出生父亲（发生变化） 认了一个干爹 (切忌这行代码要一起使用)
 //new 认干爹是最最常用的方法啦。
-CatGod.prototype = new Animal();
+CatGod.prototype = new Animal();  //这种方式也叫类式继承
 CatGod.prototype.constructor = CatGod; //但是dna 还是自己的
 
 //继承 3.不认干爹 ，借用外挂 【直接拿来用】---问题是弄坏了就不好了!!
